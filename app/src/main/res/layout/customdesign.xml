@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+        <CheckBox
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="false"
+            android:id="@+id/check"/>
+
+        <LinearLayout
+            android:id="@+id/textdeletion"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/task"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="task is written here" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/timing"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="bottom"
+                    android:paddingTop="4dp"
+                    android:textColor="@color/colorAccent"
+                    android:layout_marginRight="20dp"
+                    android:text="date"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/timer"
+                    android:paddingTop="4dp"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="right"
+                    android:textColor="@color/colorAccent"
+                    android:text="time"
+                    />
+
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/edit"
+            style="@android:style/Widget.Holo.Button.Inset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+
+            android:text="edit"
+            android:textColor="@color/colorPrimaryDark" />
+
+
+
+    </LinearLayout>
+
+</LinearLayout>

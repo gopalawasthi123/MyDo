@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyDo</string>
+    <string-array name="arrayoftasks">
+        <item>everyday</item>
+        <item>once in a week </item>
+        <item> once in a month</item>
+    </string-array>
+
+</resources>

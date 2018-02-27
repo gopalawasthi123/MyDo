@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/colordark"
+    tools:context="com.example.gopalawasthi.mydo.Setlist">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="add the task you want to do ?"
+        android:textStyle="bold"
+        android:paddingLeft="4dp"
+        android:textSize="20sp"/>
+
+    <EditText
+        android:id="@+id/edittext"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="2"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Due Date"
+        android:paddingLeft="4dp"
+        android:layout_marginTop="30sp"
+        android:textStyle="bold"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/showdate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLength="10"
+            android:drawablePadding="12dp"
+            android:focusableInTouchMode="false"
+            android:drawableRight="@drawable/calenderfinal"
+
+            android:textColor="@color/colordate"
+            android:textStyle="bold|italic"
+            android:hint="enterdate" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginTop="10dp">
+
+        <EditText
+            android:id="@+id/showtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="false"
+            android:gravity="center"
+            android:drawableRight="@drawable/finalalarm"
+            android:drawablePadding="12dp"
+
+            android:hint=" time"
+            android:textColor="@color/colordate"
+            android:textStyle="bold|italic" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="4dp"
+            android:text="Frequency"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:paddingRight="20dp"
+            android:text="Tasktype"
+            android:textStyle="bold" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:entries="@array/arrayoftasks"
+            android:layout_marginTop="4dp"
+            android:id="@+id/tasktiming"></Spinner>
+
+        <Spinner
+            android:id="@+id/customtask"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            ></Spinner>
+
+  <ImageButton
+      android:onClick="onImagebutton"
+      android:id="@+id/imagebutton"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:src="@drawable/custombutton"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/runtimetextview"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp">
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/savedata"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:onClick="savebutton"
+        android:text="save" />
+
+</LinearLayout>
