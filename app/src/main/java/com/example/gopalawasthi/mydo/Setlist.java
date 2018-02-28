@@ -29,6 +29,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Set;
 
 public class Setlist extends AppCompatActivity {
     EditText editText;
@@ -44,21 +45,23 @@ public class Setlist extends AppCompatActivity {
     String settime;
     String setdate;
    ArrayAdapter<String> arrayAdapter;
-    ArrayList<String> ar = new ArrayList<String>();
+    ArrayList<String> ar = new ArrayList<>();
     String home = "Personal";
     String Work = "Work";
     String shopping = "Shopping";
-
+    int onedithour=0;
+    int oneditminute=0;
 //    long a;
 
 //   public static long epochdate;
 
   Calendar calendar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setlist);
-     arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,ar);
+     arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,ar);
         editText=findViewById(R.id.edittext);
         calendar = Calendar.getInstance();
         button=findViewById(R.id.savedata);
@@ -86,34 +89,44 @@ public class Setlist extends AppCompatActivity {
          add = false;
         }
 
-            showtime.setOnClickListener(new EditText.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Date date = new Date(System.currentTimeMillis());
-                    date.toString();
-                    long epoch = date.getTime();
 
-                    // final Calendar calendar=Calendar.getInstance();
-                    final int hour = calendar.get(Calendar.HOUR_OF_DAY);
-                    final int minute = calendar.get(Calendar.MINUTE);
+                showtime.setOnClickListener(new EditText.OnClickListener() {
 
-                    final TimePickerDialog timePickerDialog = new TimePickerDialog(Setlist.this, new TimePickerDialog.OnTimeSetListener() {
-                        @Override
-                        public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                            settime = (i + ":" + i1 + "");
-                            showtime.setText(settime);
+                    @Override
+                    public void onClick(View view) {
 
-                            calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), i, i1);
-                        }
+                        Date date = new Date(System.currentTimeMillis());
+                        date.toString();
+                        long epoch = date.getTime();
 
-                    }, hour, minute, true);
-                    timePickerDialog.setTitle("Set alarm time");
-                    timePickerDialog.show();
-                }
-            });
+                        // final Calendar calendar=Calendar.getInstance();
+                        final int hour = calendar.get(Calendar.HOUR_OF_DAY);
+                        final int minute = calendar.get(Calendar.MINUTE);
+
+                        final TimePickerDialog timePickerDialog = new TimePickerDialog(Setlist.this, new TimePickerDialog.OnTimeSetListener() {
 
 
-            showdate.setOnClickListener(new EditText.OnClickListener() {
+                            @Override
+                            public void onTimeSet(TimePicker timePicker, int i, int i1) {
+                                settime = (i + ":" + i1 + "");
+                                showtime.setText(settime);
+                                onedithour = i;
+                                oneditminute = i1;
+
+                                calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), i, i1);
+                            }
+
+
+                        }, hour, minute, true);
+                        timePickerDialog.setTitle("Set alarm time");
+                        timePickerDialog.show();
+                    }
+                });
+
+
+
+
+        showdate.setOnClickListener(new EditText.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     // final Calendar calendar1=Calendar.getInstance();

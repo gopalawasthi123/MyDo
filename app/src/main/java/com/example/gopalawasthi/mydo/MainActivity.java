@@ -79,8 +79,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     }
 
 
-
-
     public String getHeaderString(Content item){
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.DAY_OF_MONTH,1);
@@ -100,13 +98,13 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             return "Today";
         }
         else if(itemTimestamp < todayTimestamp){
-            return "overdue";
+            return "OverDue";
         }
         else if(itemTimestamp > midnight && itemTimestamp < tomorrowTimestamp){
-            return "tommorrow";
+            return "Tommorrow";
         }
         else
-            return "later";
+            return "Later";
     }
 
 
