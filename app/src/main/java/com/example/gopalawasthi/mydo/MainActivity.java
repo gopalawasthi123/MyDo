@@ -146,8 +146,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 long id=database.insert(Contracts.ItemDataBase.TABLE_NAME,null,contentValues);
                 int ee=(int)id;
             Content content =new Content(one, two,three,a,ee);
-            String TobeSet=getHeaderString(content);
-            Header header =new Header(TobeSet);
+            String TobeSet = getHeaderString(content);
+            Header header = new Header(TobeSet);
             arrayList.add(header);
             arrayList.add(content);
             customAdaptor.notifyDataSetChanged();
@@ -172,7 +172,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 Content c =(Content) arrayList.get(pos);
                 String [] id = {c.getId()+""};
                 String tobeset = getHeaderString(content);
-
+              //  Header header = new Header(tobeset);
 
 //                arrayList.remove(pos);
 //                arrayList.remove(pos - 1);

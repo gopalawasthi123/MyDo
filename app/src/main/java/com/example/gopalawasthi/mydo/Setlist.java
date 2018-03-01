@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.net.LinkAddress;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -39,19 +40,19 @@ public class Setlist extends AppCompatActivity {
     int position;
     TextView header;
     Button button;
-    boolean error = false;
     Spinner settags;
     ImageButton imageButton;
     String settime;
     String setdate;
+    TimePickerDialog timePickerDialog;
+    DatePickerDialog datePickerDialog;
    ArrayAdapter<String> arrayAdapter;
     ArrayList<String> ar = new ArrayList<>();
     String home = "Personal";
     String Work = "Work";
     String shopping = "Shopping";
-    int onedithour=0;
-    int oneditminute=0;
-//    long a;
+    int onedithour , oneditminute, onedityear, oneditmonth ,oneditday;
+
 
 //   public static long epochdate;
 
@@ -61,8 +62,9 @@ public class Setlist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setlist);
-     arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_item,ar);
+     arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,ar);
         editText=findViewById(R.id.edittext);
+
         calendar = Calendar.getInstance();
         button=findViewById(R.id.savedata);
         imageButton = findViewById(R.id.imagebutton);
@@ -70,6 +72,7 @@ public class Setlist extends AppCompatActivity {
         showdate=findViewById(R.id.showdate);
         showtime=findViewById(R.id.showtime);
         settags = findViewById(R.id.customtask);
+
         ar.add(home);
         ar.add(Work);
         ar.add(shopping);
@@ -103,15 +106,23 @@ public class Setlist extends AppCompatActivity {
                         final int hour = calendar.get(Calendar.HOUR_OF_DAY);
                         final int minute = calendar.get(Calendar.MINUTE);
 
-                        final TimePickerDialog timePickerDialog = new TimePickerDialog(Setlist.this, new TimePickerDialog.OnTimeSetListener() {
+                          timePickerDialog = new TimePickerDialog(Setlist.this, new TimePickerDialog.OnTimeSetListener() {
 
 
                             @Override
                             public void onTimeSet(TimePicker timePicker, int i, int i1) {
-                                settime = (i + ":" + i1 + "");
+                               String one = i + "";
+                               String two = i1 + "";
+                               if(one.length()==1){
+                                   one = "0" + one ;
+                               }
+                                if(two.length()==1){
+                                   two = "0" + two;
+                                }
+                                settime = (one + ":" + two + "");
                                 showtime.setText(settime);
-                                onedithour = i;
-                                oneditminute = i1;
+//                                onedithour = i;
+//                                oneditminute = i1;
 
                                 calendar.set(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), i, i1);
                             }
@@ -132,14 +143,28 @@ public class Setlist extends AppCompatActivity {
                     // final Calendar calendar1=Calendar.getInstance();
                     int yea = calendar.get(Calendar.YEAR);
                     int mon = calendar.get(Calendar.MONTH);
-                    int day = calendar.get(Calendar.HOUR_OF_DAY);
-                    DatePickerDialog datePickerDialog = new DatePickerDialog(Setlist.this, new DatePickerDialog.OnDateSetListener() {
+                    int day = calendar.get(Calendar.DAY_OF_MONTH);
+                     datePickerDialog = new DatePickerDialog(Setlist.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                             // i1=i1+1;
                             int monthpro = i1 + 1;
-                            setdate = (i2 + "-" + monthpro + "-" + i);
-
+                            String one = i2 + "";
+                            String two = monthpro + "";
+                            String three = i + "";
+                            if(one.length() == 1){
+                                one = "0" + one;
+                            }
+                            if(two.length() == 1){
+                                two = "0" +two;
+                            }
+                            if(three.length() == 1){
+                                three = "0" + three;
+                            }
+                            setdate = (one + "-" + two + "-" + three);
+//                            onedityear = i;
+//                            oneditmonth = monthpro;
+//                            oneditday = i2;
                             showdate.setText(setdate);
                             calendar.set(i, i1, i2, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE));
 
@@ -157,6 +182,7 @@ public class Setlist extends AppCompatActivity {
 //        } catch (ParseException e) {
 //            e.printStackTrace();
 //        }
+
 
     }
 
@@ -201,11 +227,43 @@ public class Setlist extends AppCompatActivity {
 
 
     }
+//    String a=  showdate.getText() + "";
+//    String b= showtime.getText() + "";
+//    String c= a+b;  // 12-12-1332 12:12
+//    SimpleDateFormat simpleDateFormat =new SimpleDateFormat("DD mm yyyy HH:mm zzz ");
+//    Date date =simpleDateFormat.parse(c,null);
+//    long epoch1=date.getTime();
 
     // save button take you back to the main activity
     public void savebutton(View view) {
 
-        long epoch = calendar.getTimeInMillis();
+
+        Calendar calendar1 = Calendar.getInstance();
+        String a = showdate.getText().toString();
+        String b= showtime.getText().toString();
+        calendar1.set(Calendar.YEAR,Integer.parseInt(a.substring(6,10)));
+        calendar1.set(Calendar.DAY_OF_MONTH,Integer.parseInt(a.substring(0,2)));
+        calendar1.set(Calendar.MONTH,Integer.parseInt(a.substring(3,5))-1);
+        calendar1.set(Calendar.HOUR_OF_DAY,Integer.parseInt(b.substring(0,2)));
+        calendar1.set(Calendar.MINUTE,Integer.parseInt(b.substring(3,5)));
+        calendar1.set(Calendar.SECOND,0);
+        calendar1.set(Calendar.MILLISECOND,0);
+
+        Log.d("EPOCHDAY",a.substring(0,2));
+        Log.d("EPOCHmMONTH",a.substring(3,5));
+        Log.d("EPOCHYEAR",a.substring(6,10));
+        Log.d("EPOCHHOUR",a.substring(0,2));
+        Log.d("EPOCHMINUTE",a.substring(3,5));
+
+
+
+        long epoch = calendar1.getTimeInMillis();
+
+        Log.d("tagger",epoch+"");
+//            else{
+//                epoch =epoch1;
+//            }
+
         Intent intent=new Intent();
 
         String taskedit=editText.getText().toString();
@@ -228,12 +286,7 @@ public class Setlist extends AppCompatActivity {
         intent.putExtra(ItemConstants.TIME,showtime.getText().toString());
         intent.putExtra(ItemConstants.DATE,showdate.getText().toString());
         intent.putExtra(ItemConstants.TASK_COMPLETION,epoch);        //time in milliseconds
-//        String a=  showdate.getText() + "";
-//        String b= showtime.getText() + "";
-//        String c= a+b;  // 12-12-1332 12:12
-//        SimpleDateFormat simpleDateFormat =new SimpleDateFormat("DD mm yyyy HH:mm zzz ");
-//        Date date =simpleDateFormat.parse(c,null);
-//        long epoch1=date.getTime();
+
 
 
         if(add) {
