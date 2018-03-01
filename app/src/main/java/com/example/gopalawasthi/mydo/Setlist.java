@@ -250,7 +250,7 @@ public class Setlist extends AppCompatActivity {
         calendar1.set(Calendar.MILLISECOND,0);
 
         Log.d("EPOCHDAY",a.substring(0,2));
-        Log.d("EPOCHmMONTH",a.substring(3,5));
+        Log.d("EPOCHMONTH",a.substring(3,5));
         Log.d("EPOCHYEAR",a.substring(6,10));
         Log.d("EPOCHHOUR",a.substring(0,2));
         Log.d("EPOCHMINUTE",a.substring(3,5));

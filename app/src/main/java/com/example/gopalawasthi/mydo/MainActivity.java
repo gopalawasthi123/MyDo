@@ -7,14 +7,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -35,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     CustomAdaptor customAdaptor;
     ItemOpenHelper itemOpenHelper ;
     Button editutton;
+    TextView headertextview;
     CheckBox checkBox ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         arrayList=new ArrayList<>();
         arrayList= fetchdatafromDataBase();
         editutton = findViewById(R.id.edit);
+        headertextview = findViewById(R.id.header);
         customAdaptor= new CustomAdaptor(arrayList,this,this);
-//       if(customAdaptor.getViewTypeCount()==0){
-//            listView.addHeaderView(listView);
-//        }
+
         listView.setAdapter(customAdaptor);
 
         customAdaptor.notifyDataSetChanged();
@@ -70,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
           Content item =new Content(task,date,time,a,id);
           String oncomplete = getHeaderString(item);
           Header header = new Header(oncomplete);
+
           arrayList.add(header);
           arrayList.add(item);
 
@@ -94,14 +100,15 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         long tomorrowTimestamp =  midnight + 24*60*60*1000;
         long dayaftertomorrowTimestamp = midnight + 2*(24*60*60*1000);
 
-        if(itemTimestamp > todayTimestamp && itemTimestamp <midnight ){
-            return "Today";
+        if(itemTimestamp > todayTimestamp && itemTimestamp < midnight ){
+            String today = "Today";
+           return today;
         }
         else if(itemTimestamp < todayTimestamp){
             return "OverDue";
         }
         else if(itemTimestamp > midnight && itemTimestamp < tomorrowTimestamp){
-            return "Tommorrow";
+            return "Tomorrow";
         }
         else
             return "Later";

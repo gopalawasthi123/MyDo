@@ -6,4 +6,5 @@
     <color name="colorblue">#000000</color>
     <color name="colordark">#e2e190</color>
     <color name="colordate">#FFFF9500</color>
+    <color name="mainactivitycolor">#8b8686</color>
 </resources>

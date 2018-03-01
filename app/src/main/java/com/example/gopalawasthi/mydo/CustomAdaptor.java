@@ -2,7 +2,10 @@ package com.example.gopalawasthi.mydo;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.graphics.Color;
 import android.test.InstrumentationTestCase;
+import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -100,6 +103,17 @@ public class CustomAdaptor extends BaseAdapter {
         if(getItemViewType(i)==WITH_HEADER){
 
             Header header1=(Header)getItem(i);
+            String a = header1.getHeader();
+            if(a == "Today" ){
+                holder.header.setTextColor(Color.MAGENTA);
+            }else if(a == "Later"){
+                holder.header.setTextColor(Color.GREEN);
+            } else if(a == "OverDue"){
+                holder.header.setTextColor(Color.RED);
+            } else if( a == "Tomorrow"){
+                holder.header.setTextColor(Color.YELLOW);
+            }
+
             holder.header.setVisibility(view1.VISIBLE);
             holder.header.setText(header1.getHeader());
         }
