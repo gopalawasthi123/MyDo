@@ -219,14 +219,7 @@ public class Setlist extends AppCompatActivity {
            }
        });
 
-
     }
-//    String a=  showdate.getText() + "";
-//    String b= showtime.getText() + "";
-//    String c= a+b;  // 12-12-1332 12:12
-//    SimpleDateFormat simpleDateFormat =new SimpleDateFormat("DD mm yyyy HH:mm zzz ");
-//    Date date =simpleDateFormat.parse(c,null);
-//    long epoch1=date.getTime();
 
     // save button take you back to the main activity
     public void savebutton(View view) {
@@ -238,8 +231,8 @@ public class Setlist extends AppCompatActivity {
             Toast.makeText(this,"task can't be empty",Toast.LENGTH_SHORT).show();
             return;
         }
-        if(isemptyornull(dateedit)){
-            Toast.makeText(this,"date can't be empty",Toast.LENGTH_SHORT).show();
+        if(isemptyornull(dateedit)) {
+            Toast.makeText(this, "date can't be empty", Toast.LENGTH_SHORT).show();
             return;
         }
         if(isemptyornull(timeedit)){
@@ -258,15 +251,15 @@ public class Setlist extends AppCompatActivity {
         calendar1.set(Calendar.SECOND,0);
         calendar1.set(Calendar.MILLISECOND,0);
 
-        Log.d("EPOCHDAY",a.substring(0,2));
-        Log.d("EPOCHMONTH",a.substring(3,5));
-        Log.d("EPOCHYEAR",a.substring(6,10));
-        Log.d("EPOCHHOUR",a.substring(0,2));
-        Log.d("EPOCHMINUTE",a.substring(3,5));
+//        Log.d("EPOCHDAY",a.substring(0,2));
+//        Log.d("EPOCHMONTH",a.substring(3,5));
+//        Log.d("EPOCHYEAR",a.substring(6,10));
+//        Log.d("EPOCHHOUR",a.substring(0,2));
+//        Log.d("EPOCHMINUTE",a.substring(3,5));
 
-        long epoch = calendar1.getTimeInMillis();
+           long epoch = calendar1.getTimeInMillis();
 
-        Log.d("tagger",epoch+"");
+//        Log.d("tagger",epoch+"");
 //            else{
 //                epoch =epoch1;
 //            }
