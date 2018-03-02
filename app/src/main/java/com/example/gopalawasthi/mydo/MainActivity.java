@@ -240,6 +240,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         intent.putExtra(ItemConstants.TIME,c.getTime());
         intent.putExtra(ItemConstants.POSITION,i);
         startActivityForResult(intent,2);
+        overridePendingTransition(R.anim.animator1,R.anim.animator2);
+
     }
 
     @Override

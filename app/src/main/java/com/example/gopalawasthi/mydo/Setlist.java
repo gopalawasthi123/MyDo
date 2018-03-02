@@ -183,7 +183,6 @@ public class Setlist extends AppCompatActivity {
 //            e.printStackTrace();
 //        }
 
-
     }
 
      // this is image button by clicking at it dialog box appears
