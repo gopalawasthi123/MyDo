@@ -79,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
           arrayList.add(header);
           arrayList.add(item);
 
-
       }
       return arrayList;
     }
@@ -113,7 +112,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         else
             return "Later";
     }
-
 
 
 

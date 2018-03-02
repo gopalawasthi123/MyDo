@@ -194,16 +194,10 @@ public class Setlist extends AppCompatActivity {
         alertdialog.setIcon(R.drawable.contract);
         final EditText editText1 = new EditText(Setlist.this);
 
-//        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        editText1.setLayoutParams(layoutParams);
-
-
-
         alertdialog.setPositiveButton("save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
             String a = editText1.getText().toString();
-
 
                 //    Toast.makeText(Setlist.this,"invalid ",Toast.LENGTH_SHORT).show();
             }
@@ -236,7 +230,22 @@ public class Setlist extends AppCompatActivity {
 
     // save button take you back to the main activity
     public void savebutton(View view) {
+        String taskedit=editText.getText().toString();
+        String dateedit=showdate.getText().toString();
+        String timeedit=showtime.getText().toString();
 
+        if(isemptyornull(taskedit)){
+            Toast.makeText(this,"task can't be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(isemptyornull(dateedit)){
+            Toast.makeText(this,"date can't be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if(isemptyornull(timeedit)){
+            Toast.makeText(this,"time can't be empty",Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Calendar calendar1 = Calendar.getInstance();
         String a = showdate.getText().toString();
@@ -255,33 +264,14 @@ public class Setlist extends AppCompatActivity {
         Log.d("EPOCHHOUR",a.substring(0,2));
         Log.d("EPOCHMINUTE",a.substring(3,5));
 
-
-
         long epoch = calendar1.getTimeInMillis();
 
         Log.d("tagger",epoch+"");
 //            else{
 //                epoch =epoch1;
 //            }
-
         Intent intent=new Intent();
 
-        String taskedit=editText.getText().toString();
-        String dateedit=showdate.getText().toString();
-        String timeedit=showtime.getText().toString();
-
-        if(isemptyornull(taskedit)){
-            Toast.makeText(this,"task can't be empty",Toast.LENGTH_SHORT).show();
-            return;
-    }
-        if(isemptyornull(dateedit)){
-            Toast.makeText(this,"date can't be empty",Toast.LENGTH_SHORT).show();
-            return;
-        }
-        if(isemptyornull(timeedit)){
-            Toast.makeText(this,"time can't be empty",Toast.LENGTH_SHORT).show();
-            return;
-        }
         intent.putExtra(ItemConstants.TASK,editText.getText().toString());
         intent.putExtra(ItemConstants.TIME,showtime.getText().toString());
         intent.putExtra(ItemConstants.DATE,showdate.getText().toString());
