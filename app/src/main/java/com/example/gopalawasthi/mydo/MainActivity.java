@@ -8,12 +8,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
@@ -42,6 +45,43 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     Button editutton;
     TextView headertextview;
     CheckBox checkBox ;
+
+    @Override
+    protected void onStart() {
+        Log.d("checklifecycle","onStart");
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.d("checklifecycle","onStop");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.d("checklifecycle","onDestroy");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d("checklifecycle","onPause");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.d("checklifecycle","onRestart");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.d("checklifecycle","onResume");
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -155,6 +195,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             Header header = new Header(TobeSet);
             arrayList.add(header);
             arrayList.add(content);
+            arrayList =fetchdatafromDataBase();
             customAdaptor.notifyDataSetChanged();
         }
         } else if(requestCode == 2){
@@ -245,14 +286,17 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     }
 
     @Override
-    public void oncheckboxcheckdelete(final int i) {
-       // Content c= (Content) arrayList.get(i);
-         checkBox = findViewById(R.id.check);
-        if(checkBox.isChecked()){
-            arrayList.remove(i);
-            arrayList.remove(i-1);
-            customAdaptor.notifyDataSetChanged();
-            checkBox.setChecked(false);
+    public void oncheckboxcheckdelete( int i) {
+
+        Content c= (Content) arrayList.get(i);
+       c.setCheck(true);
+
+     //  else c.setCheck(false);
+         if(c.isCheck()){
+                c.setCheck(false);
+             arrayList.remove(i);
+             arrayList.remove(i-1);
+             customAdaptor.notifyDataSetChanged();
         }
     }
 

@@ -10,9 +10,17 @@ public class Content implements Item {
   private String time;
  private long timestamp;
  private int id;
+ private boolean check =false;
 
+    public boolean isCheck() {
+        return check;
+    }
 
-    public Content(String name, String date, String time, long timestamp) {
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
+
+    public Content(String name, String date, String time, long timestamp ) {
         this.name = name;
         this.date = date;
         this.time = time;

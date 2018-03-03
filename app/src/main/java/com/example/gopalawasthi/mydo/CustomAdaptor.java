@@ -24,6 +24,7 @@ import java.util.ArrayList;
  */
 
 public class CustomAdaptor extends BaseAdapter {
+    Holder holder;
     public  interface onbuttonclicklistener{
         public void longclickdeletion(int i , long j);
         public void oneditbuttonclick(int i);
@@ -76,7 +77,7 @@ public class CustomAdaptor extends BaseAdapter {
         if(view1==null){
 
             LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            Holder holder=new Holder();
+           final  Holder holder=new Holder();
 
             if(getItemViewType(i)==WITH_HEADER){
 
@@ -92,33 +93,31 @@ public class CustomAdaptor extends BaseAdapter {
                 holder.edit=view1.findViewById(R.id.edit);
                 holder.date=view1.findViewById(R.id.timing);
                 holder.time=view1.findViewById(R.id.timer);
-
+                holder.checkBox.setChecked(false);
                 holder.fordelete=view1.findViewById(R.id.textdeletion);
                 view1.setTag(holder);
             }
 
-
         }
-         Holder  holder=(Holder) view1.getTag();
+        holder=(Holder) view1.getTag();
         if(getItemViewType(i)==WITH_HEADER){
 
             Header header1=(Header)getItem(i);
             String a = header1.getHeader();
             if(a == "Today" ){
-                holder.header.setTextColor(Color.MAGENTA);
+                holder.header.setTextColor(Color.YELLOW);
             }else if(a == "Later"){
                 holder.header.setTextColor(Color.GREEN);
             } else if(a == "OverDue"){
                 holder.header.setTextColor(Color.RED);
             } else if( a == "Tomorrow"){
-                holder.header.setTextColor(Color.YELLOW);
+                holder.header.setTextColor(Color.GREEN);
             }
 
             holder.header.setVisibility(view1.VISIBLE);
             holder.header.setText(header1.getHeader());
         }
         else{
-
             holder=(Holder) view1.getTag();
             Content content=(Content)getItem(i);
             holder.name.setText(content.getName());
@@ -128,6 +127,7 @@ public class CustomAdaptor extends BaseAdapter {
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                holder.checkBox.toggle();
                     listener.oncheckboxcheckdelete(i);
                 }
             });
@@ -145,9 +145,7 @@ public class CustomAdaptor extends BaseAdapter {
                     listener.oneditbuttonclick(i);
                 }
             });
-
         }
-
 
         return view1;
 
@@ -166,7 +164,6 @@ public class CustomAdaptor extends BaseAdapter {
     public int getViewTypeCount() {
         return 2;
     }
-
 
 }
 

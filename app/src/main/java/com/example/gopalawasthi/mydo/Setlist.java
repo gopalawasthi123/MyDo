@@ -59,6 +59,12 @@ public class Setlist extends AppCompatActivity {
   Calendar calendar;
 
     @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.animation3,R.anim.animation4);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setlist);
@@ -135,8 +141,6 @@ public class Setlist extends AppCompatActivity {
                 });
 
 
-
-
         showdate.setOnClickListener(new EditText.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -174,14 +178,6 @@ public class Setlist extends AppCompatActivity {
                     datePickerDialog.show();
                 }
             });
-
-//        String maindate=setdate+":"+settime;
-//
-//        try {
-//           a = new SimpleDateFormat("dd-MM-yyyy:HH:mm").parse(maindate).getTime();
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
 
     }
 
@@ -268,7 +264,6 @@ public class Setlist extends AppCompatActivity {
         intent.putExtra(ItemConstants.TIME,showtime.getText().toString());
         intent.putExtra(ItemConstants.DATE,showdate.getText().toString());
         intent.putExtra(ItemConstants.TASK_COMPLETION,epoch);        //time in milliseconds
-
 
 
         if(add) {
