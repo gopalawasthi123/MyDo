@@ -17,20 +17,20 @@ public class Contracts {
         public static final String ITEM_ID= "id_of_item";
         public static final  String DATES = "datetasks";
     }
-    static class TagsdataBase {
-
-        public static final String TABLE_NAME = "tags";
-        public static final String ID = "tagsid";
-        public static final String TAGS = "listoftags";
-     //   public static  final String ITEM_ID = "item";
-    }
-    static class MergeItemTags {
-        public  static  final String TABLE_NAME = "newtask";
-        public  static  final  String ID = "mergeid";
-        public static  final String FINALITEM_ID ="itemid";
-        public static  final String TAGS_ID = "tagsid";
-
-    }
+//    static class TagsdataBase {
+//
+//        public static final String TABLE_NAME = "tags";
+//        public static final String ID = "tagsid";
+//        public static final String TAGS = "listoftags";
+//        public static  final String ITEM_ID = "item";
+//    }
+//    static class MergeItemTags {
+//        public  static  final String TABLE_NAME = "newtask";
+//        public  static  final  String ID = "mergeid";
+//        public static  final String FINALITEM_ID ="itemid";
+//        public static  final String TAGS_ID = "tagsid";
+//
+//    }
 
     }
 

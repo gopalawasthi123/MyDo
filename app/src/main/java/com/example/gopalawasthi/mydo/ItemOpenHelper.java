@@ -37,19 +37,19 @@ public class ItemOpenHelper extends SQLiteOpenHelper {
             sqLiteDatabase.execSQL(sqluse);
 
 // for the tags to that would be given different as per requirement of the user
-            String addtagstolist = "CREATE TABLE " + Contracts.TagsdataBase.TABLE_NAME + " ( " +
-                                    Contracts.TagsdataBase.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                    Contracts.TagsdataBase.TAGS + " TEXT )";
-
-            sqLiteDatabase.execSQL(addtagstolist);
-
- //    for sorting the items using the tags
-      String tagswithitem = "CREATE TABLE " + Contracts.MergeItemTags.TABLE_NAME + " (" +
-                            Contracts.MergeItemTags.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                            Contracts.MergeItemTags.FINALITEM_ID + " TEXT " +
-                            Contracts.MergeItemTags.TAGS_ID + " TEXT )";
-
-      sqLiteDatabase.execSQL(tagswithitem);
+//            String addtagstolist = "CREATE TABLE " + Contracts.TagsdataBase.TABLE_NAME + " ( " +
+//                                    Contracts.TagsdataBase.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                                    Contracts.TagsdataBase.TAGS + " TEXT )";
+//
+//            sqLiteDatabase.execSQL(addtagstolist);
+//
+//     for sorting the items using the tags
+//      String tagswithitem = "CREATE TABLE " + Contracts.MergeItemTags.TABLE_NAME + " (" +
+//                            Contracts.MergeItemTags.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+//                            Contracts.MergeItemTags.FINALITEM_ID + " TEXT " +
+//                            Contracts.MergeItemTags.TAGS_ID + " TEXT )";
+//
+//      sqLiteDatabase.execSQL(tagswithitem);
      }
 
     @Override

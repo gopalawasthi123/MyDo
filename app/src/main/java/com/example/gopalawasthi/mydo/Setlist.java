@@ -1,12 +1,15 @@
 package com.example.gopalawasthi.mydo;
 
 import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.LinkAddress;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -258,6 +261,9 @@ public class Setlist extends AppCompatActivity {
 //            else{
 //                epoch =epoch1;
 //            }
+
+
+
         Intent intent=new Intent();
 
         intent.putExtra(ItemConstants.TASK,editText.getText().toString());
@@ -272,7 +278,22 @@ public class Setlist extends AppCompatActivity {
             intent.putExtra(ItemConstants.POSITION,position);
             setResult(2,intent);
         }
+        // alarm set and notification
+         broadcastAlarmNotification(epoch);
         finish();
+    }
+
+   private void broadcastAlarmNotification(long epoch) {
+
+        AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent shareintent = new Intent(this,MyReceiver.class);
+        int id =(int) System.currentTimeMillis();
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1+id,shareintent,PendingIntent.FLAG_ONE_SHOT);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP,epoch+1,pendingIntent);
+        }
+
     }
 
     //for checking whether the task is empty or not

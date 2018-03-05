@@ -28,7 +28,7 @@ public class CustomAdaptor extends BaseAdapter {
     public  interface onbuttonclicklistener{
         public void longclickdeletion(int i , long j);
         public void oneditbuttonclick(int i);
-        public void oncheckboxcheckdelete(int i);
+       public void oncheckboxcheckdelete(int i);
     }
     onbuttonclicklistener listener;
     ArrayList<Item> arrayList=new ArrayList<>();
@@ -117,19 +117,19 @@ public class CustomAdaptor extends BaseAdapter {
             holder.header.setVisibility(view1.VISIBLE);
             holder.header.setText(header1.getHeader());
         }
-        else{
-            holder=(Holder) view1.getTag();
-            Content content=(Content)getItem(i);
+        else {
+            holder = (Holder) view1.getTag();
+            Content content = (Content) getItem(i);
             holder.name.setText(content.getName());
             holder.date.setText(content.getDate());
             holder.time.setText(content.getTime());
-
+            holder.checkBox.setChecked(false);
             holder.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                holder.checkBox.toggle();
+                holder.checkBox.setChecked(true);
                     listener.oncheckboxcheckdelete(i);
-                }
+        }
             });
 
             holder.fordelete.setOnLongClickListener(new View.OnLongClickListener() {

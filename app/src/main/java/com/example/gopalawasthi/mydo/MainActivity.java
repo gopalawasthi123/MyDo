@@ -46,41 +46,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     TextView headertextview;
     CheckBox checkBox ;
 
-    @Override
-    protected void onStart() {
-        Log.d("checklifecycle","onStart");
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        Log.d("checklifecycle","onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Log.d("checklifecycle","onDestroy");
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        Log.d("checklifecycle","onPause");
-    }
-
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        Log.d("checklifecycle","onRestart");
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        Log.d("checklifecycle","onResume");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             Header header = new Header(TobeSet);
             arrayList.add(header);
             arrayList.add(content);
+            customAdaptor.notifyDataSetChanged();
             arrayList =fetchdatafromDataBase();
             customAdaptor.notifyDataSetChanged();
         }
@@ -289,16 +255,15 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     public void oncheckboxcheckdelete( int i) {
 
         Content c= (Content) arrayList.get(i);
-       c.setCheck(true);
 
-     //  else c.setCheck(false);
-         if(c.isCheck()){
-                c.setCheck(false);
              arrayList.remove(i);
              arrayList.remove(i-1);
              customAdaptor.notifyDataSetChanged();
-        }
+
+   }
+
+
     }
 
 
-}
+
