@@ -160,8 +160,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             Header header = new Header(TobeSet);
             arrayList.add(header);
             arrayList.add(content);
-            customAdaptor.notifyDataSetChanged();
             arrayList =fetchdatafromDataBase();
+            customAdaptor = new CustomAdaptor(arrayList,this,this);
+            listView.setAdapter(customAdaptor);
             customAdaptor.notifyDataSetChanged();
         }
         } else if(requestCode == 2){

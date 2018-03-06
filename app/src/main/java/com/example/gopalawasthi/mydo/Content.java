@@ -9,16 +9,9 @@ public class Content implements Item {
   private String date;
   private String time;
  private long timestamp;
- private int id;
+ private int id=0;
  private boolean check =false;
 
-    public boolean isCheck() {
-        return check;
-    }
-
-    public void setCheck(boolean check) {
-        this.check = check;
-    }
 
     public Content(String name, String date, String time, long timestamp ) {
         this.name = name;
@@ -82,6 +75,13 @@ public class Content implements Item {
         return false;
     }
 
+    public boolean isCheck() {
+        return check;
+    }
+
+    public void setCheck(boolean check) {
+        this.check = check;
+    }
 
 
 }
