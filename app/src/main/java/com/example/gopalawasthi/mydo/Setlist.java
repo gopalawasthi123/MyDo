@@ -288,9 +288,12 @@ public class Setlist extends AppCompatActivity {
         AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
         Intent shareintent = new Intent(this,MyReceiver.class);
         int id =(int) System.currentTimeMillis();
+        long currenttime = System.currentTimeMillis();
+        long check = epoch - currenttime;
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1+id,shareintent,PendingIntent.FLAG_ONE_SHOT);
 
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+           if(check >= 0 )
             alarmManager.setExact(AlarmManager.RTC_WAKEUP,epoch+1,pendingIntent);
         }
 
