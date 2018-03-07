@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:title="+"
-        android:icon="@drawable/plus"
+        android:icon="@drawable/clipboard"
         android:id="@+id/addtask"
         app:showAsAction="always">
 

@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="false"
+        android:textSize="13sp"
         android:focusableInTouchMode="false"
         android:text="somthing"
         android:visibility="invisible" />

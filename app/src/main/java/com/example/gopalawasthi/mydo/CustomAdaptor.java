@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Checkable;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -155,7 +156,7 @@ public class CustomAdaptor extends BaseAdapter {
         TextView date;
         TextView time;
         TextView header;
-        Button edit;
+        ImageButton edit;
         LinearLayout fordelete;
         CheckBox checkBox;
     }
