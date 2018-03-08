@@ -26,6 +26,7 @@ import java.util.ArrayList;
 
 public class CustomAdaptor extends BaseAdapter {
     Holder holder;
+    boolean overdue,today,later,tomorrow;
     public  interface onbuttonclicklistener{
         public void longclickdeletion(int i , long j);
         public void oneditbuttonclick(int i);
@@ -106,17 +107,45 @@ public class CustomAdaptor extends BaseAdapter {
             Header header1=(Header)getItem(i);
             String a = header1.getHeader();
             if(a == "Today" ){
-                holder.header.setTextColor(Color.YELLOW);
-            }else if(a == "Later"){
-                holder.header.setTextColor(Color.GREEN);
-            } else if(a == "OverDue"){
-                holder.header.setTextColor(Color.RED);
-            } else if( a == "Tomorrow"){
-                holder.header.setTextColor(Color.GREEN);
-            }
+//                if(!today){
+                    holder.header.setTextColor(Color.YELLOW);
+//                    today=true;
+                }
+//                else{
+//                    a="";
+//                }
+
+//            }
+            else if(a == "Later"){
+//                if(!later){
+                    holder.header.setTextColor(Color.GREEN);
+//                    later=true;
+                }
+//                else{
+//                    a="";
+//                }
+//            }
+            else if(a == "OverDue"){
+//                if(!overdue){
+                    holder.header.setTextColor(Color.RED);
+//                    overdue=true;
+                }
+//                else{
+//                    a="";
+//                }
+//            }
+            else if( a == "Tomorrow"){
+//                if(!tomorrow){
+                    holder.header.setTextColor(Color.GREEN);
+//                    tomorrow=true;
+                }
+//                else{
+//                    a="";
+//                }
+//            }
 
             holder.header.setVisibility(view1.VISIBLE);
-            holder.header.setText(header1.getHeader());
+            holder.header.setText(a);
         }
         else {
             holder = (Holder) view1.getTag();

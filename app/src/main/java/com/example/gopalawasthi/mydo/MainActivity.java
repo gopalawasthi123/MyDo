@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -42,8 +43,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     ArrayList<Item> arrayList;
     CustomAdaptor customAdaptor;
     ItemOpenHelper itemOpenHelper ;
-    Button editutton;
+    ImageButton editutton;
+    ArrayList <Item> arrayList1;
     TextView headertextview;
+    boolean todaycheck,tomorrowcheck,overduecheck,latercheck;
+    ArrayList <Item> tomorrow ,today,overdue,later;
     CheckBox checkBox ;
 
 
@@ -54,6 +58,10 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
        itemOpenHelper= ItemOpenHelper.getInstance(this);
         listView = findViewById(R.id.listview);
         arrayList=new ArrayList<>();
+        tomorrow = new ArrayList<>();
+        today = new ArrayList<>();
+        overdue = new ArrayList<>();
+        later = new ArrayList<>();
         arrayList= fetchdatafromDataBase();
         editutton = findViewById(R.id.edit);
         headertextview = findViewById(R.id.header);
@@ -66,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
 
 
     private ArrayList<Item> fetchdatafromDataBase() {
-        ArrayList <Item> arrayList = new ArrayList<>();
+        arrayList1 = new ArrayList<>();
         SQLiteDatabase sqLiteDatabase = itemOpenHelper.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(Contracts.ItemDataBase.TABLE_NAME , null , null , null, null , null ,Contracts.ItemDataBase.DATES + " ASC, " + Contracts.ItemDataBase.TIMES + " ASC");
       while (cursor.moveToNext()){
@@ -78,15 +86,17 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
           long a = Long.parseLong(istaskcompletion);
 
           Content item =new Content(task,date,time,a,id);
-          String oncomplete = getHeaderString(item);
-          Header header = new Header(oncomplete);
-
-          arrayList.add(header);
-          arrayList.add(item);
+          String get = getHeaderString(item);
+        //  Header header = new Header(oncomplete);
+         // arrayList.add(header);
+         // arrayList.add(item);
 
       }
-      return arrayList;
+      return arrayList1;
     }
+
+
+
 
 
     public String getHeaderString(Content item){
@@ -105,18 +115,44 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         long dayaftertomorrowTimestamp = midnight + 2*(24*60*60*1000);
 
         if(itemTimestamp > todayTimestamp && itemTimestamp < midnight ){
-            String today = "Today";
-           return today;
+            String Today = "Today";
+           if(!todaycheck ) {
+               arrayList1.add(new Header(Today));
+               todaycheck = true;
+           }
+            arrayList1.add(item);
+            return Today;
         }
         else if(itemTimestamp < todayTimestamp){
-            return "OverDue";
+            String Overdue = "OverDue";
+            if(!overduecheck)
+            {
+              arrayList1.add(new Header(Overdue));
+              overduecheck = true;
+            }
+            arrayList1.add(item);
+            return Overdue;
         }
         else if(itemTimestamp > midnight && itemTimestamp < tomorrowTimestamp){
-            return "Tomorrow";
+             String Tomorrow = "Tomorrow";
+            if(!tomorrowcheck){
+                arrayList1.add(new Header(Tomorrow));
+                tomorrowcheck = true;
+            }
+            arrayList1.add(item);
+            return Tomorrow;
         }
-        else
+        else {
+                String Later ="Later";
+                if(!latercheck){
+                   arrayList1.add(new Header(Later));
+                    latercheck = true;
+                }
+                arrayList1.add(item);
             return "Later";
-    }
+
+        }
+        }
 
 
 
@@ -156,10 +192,15 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 long id=database.insert(Contracts.ItemDataBase.TABLE_NAME,null,contentValues);
                 int ee=(int)id;
             Content content =new Content(one, two,three,a,ee);
-            String TobeSet = getHeaderString(content);
-            Header header = new Header(TobeSet);
-            arrayList.add(header);
-            arrayList.add(content);
+          //  String TobeSet = getHeaderString(content);
+            //Header header = new Header(TobeSet);
+          //  arrayList.add(header);
+           // arrayList.add(content);
+            todaycheck =false;
+            tomorrowcheck =false;
+            overduecheck =false;
+            latercheck =false;
+
             arrayList =fetchdatafromDataBase();
             customAdaptor = new CustomAdaptor(arrayList,this,this);
             listView.setAdapter(customAdaptor);
@@ -184,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                Content content =  new Content(name,date,time,a);
                 Content c =(Content) arrayList.get(pos);
                 String [] id = {c.getId()+""};
-                String tobeset = getHeaderString(content);
+             //   String tobeset = getHeaderString(content);
               //  Header header = new Header(tobeset);
 
 //                arrayList.remove(pos);
@@ -198,6 +239,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
               //  itemOpenHelper = ItemOpenHelper.getInstance(this) ;
                 SQLiteDatabase database=itemOpenHelper.getWritableDatabase();
                  database.update(Contracts.ItemDataBase.TABLE_NAME,contentValues,Contracts.ItemDataBase.ITEM_ID + " = ? ",id);
+                todaycheck =false;
+                tomorrowcheck =false;
+                overduecheck =false;
+                latercheck =false;
+
                 arrayList =  fetchdatafromDataBase();
                 customAdaptor= new CustomAdaptor(arrayList,this,this);
                 listView.setAdapter(customAdaptor);
@@ -221,8 +267,13 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                        Content c=(Content)arrayList.get(i);
                        String [] a= {c.getId()+""};
                         database1.delete(Contracts.ItemDataBase.TABLE_NAME,Contracts.ItemDataBase.ITEM_ID + " = ? ", a );
-                        arrayList.remove(i);
-                        arrayList.remove(i-1);
+                        todaycheck =false;
+                        tomorrowcheck =false;
+                        overduecheck =false;
+                        latercheck =false;
+                        arrayList = fetchdatafromDataBase();
+                        customAdaptor = new CustomAdaptor(arrayList,MainActivity.this,MainActivity.this);
+                        listView.setAdapter(customAdaptor);
                         customAdaptor.notifyDataSetChanged();
                     }
 
@@ -230,6 +281,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
+//                customAdaptor.today= false;
+//                customAdaptor.overdue= false;
+//                customAdaptor.tomorrow =false;
+//                customAdaptor.later =false;
+
                 customAdaptor.notifyDataSetChanged();
             }
         });
