@@ -32,17 +32,17 @@ public class ItemOpenHelper extends SQLiteOpenHelper {
                     Contracts.ItemDataBase.DATES + " TEXT, " +
                     Contracts.ItemDataBase.TIMES + " TEXT, " +
                     Contracts.ItemDataBase.TIME_STAMP + " TEXT, " +
-                    Contracts.ItemDataBase.TASKS + " TEXT )";
+                    Contracts.ItemDataBase.TASKS + " TEXT, "+ Contracts.ItemDataBase.TAG + "TEXT )";
 
             sqLiteDatabase.execSQL(sqluse);
 
 // for the tags to that would be given different as per requirement of the user
-//            String addtagstolist = "CREATE TABLE " + Contracts.TagsdataBase.TABLE_NAME + " ( " +
-//                                    Contracts.TagsdataBase.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                                    Contracts.TagsdataBase.TAGS + " TEXT )";
-//
-//            sqLiteDatabase.execSQL(addtagstolist);
-//
+            String addtagstolist = "CREATE TABLE " + Contracts.TagsdataBase.TABLE_NAME + " ( " +
+                                    Contracts.TagsdataBase.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                    Contracts.TagsdataBase.TAGS + " TEXT )";
+
+            sqLiteDatabase.execSQL(addtagstolist);
+
 //     for sorting the items using the tags
 //      String tagswithitem = "CREATE TABLE " + Contracts.MergeItemTags.TABLE_NAME + " (" +
 //                            Contracts.MergeItemTags.ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +

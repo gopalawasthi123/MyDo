@@ -16,14 +16,15 @@ public class Contracts {
         public static final  String TIMES = "timetasks";
         public static final String ITEM_ID= "id_of_item";
         public static final  String DATES = "datetasks";
+        public static final String TAG = "tag";
     }
-//    static class TagsdataBase {
-//
-//        public static final String TABLE_NAME = "tags";
-//        public static final String ID = "tagsid";
-//        public static final String TAGS = "listoftags";
-//        public static  final String ITEM_ID = "item";
-//    }
+    static class TagsdataBase {
+
+        public static final String TABLE_NAME = "tags";
+        public static final String ID = "tagsid";
+        public static final String TAGS = "listoftags";
+        public static  final String ITEM_ID = "item";
+    }
 //    static class MergeItemTags {
 //        public  static  final String TABLE_NAME = "newtask";
 //        public  static  final  String ID = "mergeid";

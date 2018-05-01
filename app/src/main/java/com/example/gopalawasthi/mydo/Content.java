@@ -11,6 +11,7 @@ public class Content implements Item {
  private long timestamp;
  private int id=0;
  private boolean check =false;
+ private  String tag;
 
 
     public Content(String name, String date, String time, long timestamp ) {
@@ -21,12 +22,13 @@ public class Content implements Item {
 
     }
 
-    public Content(String name, String date, String time, long timestamp, int id) {
+    public Content(String name, String date, String time, long timestamp, int id, String tag) {
         this.name = name;
         this.date = date;
         this.time = time;
         this.timestamp = timestamp;
         this.id = id;
+        this.tag = tag;
     }
 
     public String getName() {

@@ -17,10 +17,10 @@ public class Header implements Item {
     }
 
     private  int id;
+
     public Header(String header) {
         this.id =-1;
         this.header = header;
-
     }
 
     public String getHeader() {

@@ -11,18 +11,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <CheckBox
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="false"
-            android:shadowColor="@color/whitecolor"
-            android:id="@+id/check"/>
 
         <LinearLayout
             android:id="@+id/textdeletion"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
+            android:layout_margin="4dp"
             android:layout_gravity="center"
             android:orientation="vertical">
 
@@ -73,11 +68,20 @@
             android:id="@+id/edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+
+            android:layout_gravity="bottom"
             android:layout_marginBottom="4dp"
             android:layout_marginLeft="5dp"
             android:background="@color/mainactivitycolor"
-            android:src="@drawable/edit" />
+            android:src="@drawable/ic_action_edit" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_marginRight="4dp"
+            android:textStyle="bold"
+            android:text="Default"/>
 
 
     </LinearLayout>

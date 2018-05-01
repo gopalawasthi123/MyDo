@@ -1,6 +1,8 @@
 package com.example.gopalawasthi.mydo;
 
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8,6 +10,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
@@ -39,6 +42,7 @@ import static com.example.gopalawasthi.mydo.ItemConstants.TASK_COMPLETION;
 import static com.example.gopalawasthi.mydo.ItemConstants.TIME;
 
 public class MainActivity extends AppCompatActivity implements CustomAdaptor.onbuttonclicklistener {
+
     ListView listView;
     ArrayList<Item> arrayList;
     CustomAdaptor customAdaptor;
@@ -47,9 +51,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
     ArrayList <Item> arrayList1;
     TextView headertextview;
     boolean todaycheck,tomorrowcheck,overduecheck,latercheck;
-    ArrayList <Item> tomorrow ,today,overdue,later;
-    CheckBox checkBox ;
 
+    CheckBox checkBox ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,10 +61,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
        itemOpenHelper= ItemOpenHelper.getInstance(this);
         listView = findViewById(R.id.listview);
         arrayList=new ArrayList<>();
-        tomorrow = new ArrayList<>();
-        today = new ArrayList<>();
-        overdue = new ArrayList<>();
-        later = new ArrayList<>();
         arrayList= fetchdatafromDataBase();
         editutton = findViewById(R.id.edit);
         headertextview = findViewById(R.id.header);
@@ -82,10 +81,11 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
           String date = cursor.getString(cursor.getColumnIndex(Contracts.ItemDataBase.DATES));
           String time = cursor.getString(cursor.getColumnIndex(Contracts.ItemDataBase.TIMES));
           String istaskcompletion = cursor.getString(cursor.getColumnIndex(Contracts.ItemDataBase.TIME_STAMP));
+          String tag = cursor.getString(cursor.getColumnIndex(Contracts.ItemDataBase.TAG));
           int id= cursor.getInt(cursor.getColumnIndex(Contracts.ItemDataBase.ITEM_ID));
           long a = Long.parseLong(istaskcompletion);
 
-          Content item =new Content(task,date,time,a,id);
+          Content item =new Content(task,date,time,a,id,tag);
           String get = getHeaderString(item);
         //  Header header = new Header(oncomplete);
          // arrayList.add(header);
@@ -94,9 +94,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
       }
       return arrayList1;
     }
-
-
-
 
 
     public String getHeaderString(Content item){
@@ -155,7 +152,6 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         }
 
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu,menu);
@@ -191,7 +187,9 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 contentValues.put(Contracts.ItemDataBase.TIME_STAMP,a);
                 long id=database.insert(Contracts.ItemDataBase.TABLE_NAME,null,contentValues);
                 int ee=(int)id;
-            Content content =new Content(one, two,three,a,ee);
+
+          //  Content content =new Content(one, two,three,a,ee);
+                 broadcastAlarmNotification(a,ee);
           //  String TobeSet = getHeaderString(content);
             //Header header = new Header(TobeSet);
           //  arrayList.add(header);
@@ -204,6 +202,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
             arrayList =fetchdatafromDataBase();
             customAdaptor = new CustomAdaptor(arrayList,this,this);
             listView.setAdapter(customAdaptor);
+
             customAdaptor.notifyDataSetChanged();
         }
         } else if(requestCode == 2){
@@ -213,7 +212,8 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
              String name = data.getStringExtra(TASK);
              String date = data.getStringExtra(DATE);
              String time = data.getStringExtra(TIME);
-            int pos = data.getIntExtra(POSITION,-1);
+             String tag =  data.getStringExtra(Setlist.TAGS_STRING);
+             int pos = data.getIntExtra(POSITION,-1);
              long a = data.getLongExtra(TASK_COMPLETION,-1);
 
                 ContentValues contentValues=new ContentValues();
@@ -221,13 +221,14 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 contentValues.put(Contracts.ItemDataBase.DATES,date);
                 contentValues.put(Contracts.ItemDataBase.TIMES,time);
                 contentValues.put(Contracts.ItemDataBase.TIME_STAMP,a);
+                contentValues.put(Contracts.ItemDataBase.TAG,tag);
                // int ee = (int)a;
                Content content =  new Content(name,date,time,a);
                 Content c =(Content) arrayList.get(pos);
                 String [] id = {c.getId()+""};
              //   String tobeset = getHeaderString(content);
               //  Header header = new Header(tobeset);
-
+                  int ee = c.getId();
 //                arrayList.remove(pos);
 //                arrayList.remove(pos - 1);
             //   customAdaptor.notifyDataSetChanged();
@@ -243,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                 tomorrowcheck =false;
                 overduecheck =false;
                 latercheck =false;
-
+                broadcastAlarmNotification(a,ee);
                 arrayList =  fetchdatafromDataBase();
                 customAdaptor= new CustomAdaptor(arrayList,this,this);
                 listView.setAdapter(customAdaptor);
@@ -252,6 +253,21 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         }
 
 
+    }
+    // set the alarm using broadcasting
+    private void broadcastAlarmNotification(long epoch,int id) {
+
+        AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent shareintent = new Intent(this,MyReceiver.class);
+        SQLiteDatabase database = itemOpenHelper.getReadableDatabase();
+        long currenttime = System.currentTimeMillis();
+        long check = epoch - currenttime;
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,id,shareintent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+            if(check >= 0 )
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP,epoch+1,pendingIntent);
+        }
 
     }
 
@@ -266,18 +282,22 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
                         SQLiteDatabase database1 = itemOpenHelper.getWritableDatabase();
                        Content c=(Content)arrayList.get(i);
                        String [] a= {c.getId()+""};
+
                         database1.delete(Contracts.ItemDataBase.TABLE_NAME,Contracts.ItemDataBase.ITEM_ID + " = ? ", a );
                         todaycheck =false;
                         tomorrowcheck =false;
                         overduecheck =false;
                         latercheck =false;
+                        cancelAlarmOnDelete(c.getId());
                         arrayList = fetchdatafromDataBase();
+
                         customAdaptor = new CustomAdaptor(arrayList,MainActivity.this,MainActivity.this);
                         listView.setAdapter(customAdaptor);
                         customAdaptor.notifyDataSetChanged();
                     }
 
                 }).setNegativeButton("no", new DialogInterface.OnClickListener() {
+
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -295,6 +315,15 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
 
     }
 
+    private void cancelAlarmOnDelete(int id) {
+    AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+    Intent  intent = new Intent(this,MyReceiver.class);
+    PendingIntent pendingIntent =  PendingIntent.getBroadcast(MainActivity.this,id,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+   // pendingIntent.cancel();
+    alarmManager.cancel(pendingIntent);
+
+    }
+
     @Override
     public void oneditbuttonclick(int i) {
         Intent intent =new Intent(this,Setlist.class);
@@ -307,20 +336,18 @@ public class MainActivity extends AppCompatActivity implements CustomAdaptor.onb
         overridePendingTransition(R.anim.animator1,R.anim.animator2);
 
     }
+//
+//    @Override
+//    public void oncheckboxcheckdelete( int i) {
+//
+//        Content c= (Content) arrayList.get(i);
+//
+//             arrayList.remove(i);
+//             arrayList.remove(i-1);
+//             customAdaptor.notifyDataSetChanged();
+//   }
 
-    @Override
-    public void oncheckboxcheckdelete( int i) {
-
-        Content c= (Content) arrayList.get(i);
-
-             arrayList.remove(i);
-             arrayList.remove(i-1);
-             customAdaptor.notifyDataSetChanged();
-
-   }
-
-
-    }
+}
 
 
 

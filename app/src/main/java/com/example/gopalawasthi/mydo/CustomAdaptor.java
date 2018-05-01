@@ -30,7 +30,7 @@ public class CustomAdaptor extends BaseAdapter {
     public  interface onbuttonclicklistener{
         public void longclickdeletion(int i , long j);
         public void oneditbuttonclick(int i);
-       public void oncheckboxcheckdelete(int i);
+//       public void oncheckboxcheckdelete(int i);
     }
     onbuttonclicklistener listener;
     ArrayList<Item> arrayList=new ArrayList<>();
@@ -57,7 +57,6 @@ public class CustomAdaptor extends BaseAdapter {
     @Override
     public long getItemId(int i) {
         return i;
-
     }
 
     @Override
@@ -90,12 +89,10 @@ public class CustomAdaptor extends BaseAdapter {
             }
             else if(getItemViewType(i)==WITHOUT_HEADER){
                 view1=inflater.inflate(R.layout.customdesign,viewGroup,false);
-                holder.checkBox = view1.findViewById(R.id.check);
                 holder.name=view1.findViewById(R.id.task);
                 holder.edit=view1.findViewById(R.id.edit);
                 holder.date=view1.findViewById(R.id.timing);
                 holder.time=view1.findViewById(R.id.timer);
-                holder.checkBox.setChecked(false);
                 holder.fordelete=view1.findViewById(R.id.textdeletion);
                 view1.setTag(holder);
             }
@@ -153,14 +150,13 @@ public class CustomAdaptor extends BaseAdapter {
             holder.name.setText(content.getName());
             holder.date.setText(content.getDate());
             holder.time.setText(content.getTime());
-            holder.checkBox.setChecked(false);
-            holder.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                holder.checkBox.setChecked(true);
-                    listener.oncheckboxcheckdelete(i);
-        }
-            });
+//            holder.checkBox.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                holder.checkBox.setChecked(true);
+//                    listener.oncheckboxcheckdelete(i);
+//        }
+//            });
 
             holder.fordelete.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -195,7 +191,7 @@ public class CustomAdaptor extends BaseAdapter {
         return 2;
     }
 
-}
+  }
 
 
 

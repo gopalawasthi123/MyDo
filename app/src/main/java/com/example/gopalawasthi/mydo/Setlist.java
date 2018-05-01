@@ -6,8 +6,11 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.LinkAddress;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +18,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -35,7 +39,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Set;
 
-public class Setlist extends AppCompatActivity {
+public class Setlist extends AppCompatActivity implements AdapterView.OnItemSelectedListener{
     EditText editText;
     boolean add= true;
     EditText showtime;
@@ -47,14 +51,17 @@ public class Setlist extends AppCompatActivity {
     ImageButton imageButton;
     String settime;
     String setdate;
+    ArrayList<String> updatelist;
     TimePickerDialog timePickerDialog;
     DatePickerDialog datePickerDialog;
+    ItemOpenHelper itemOpenHelper;
    ArrayAdapter<String> arrayAdapter;
     ArrayList<String> ar = new ArrayList<>();
-    String home = "Personal";
-    String Work = "Work";
-    String shopping = "Shopping";
-    int onedithour , oneditminute, onedityear, oneditmonth ,oneditday;
+//    String home = "Personal";
+//    String Work = "Work";
+//    String shopping = "Shopping";
+    public static final String TAGS_STRING ="tag";
+
 
 
 //   public static long epochdate;
@@ -71,8 +78,9 @@ public class Setlist extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setlist);
-     arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,ar);
-        editText=findViewById(R.id.edittext);
+        itemOpenHelper = ItemOpenHelper.getInstance(this);
+          arrayAdapter = new ArrayAdapter<>(this,android.R.layout.simple_spinner_dropdown_item,ar);
+         editText=findViewById(R.id.edittext);
 
         calendar = Calendar.getInstance();
         button=findViewById(R.id.savedata);
@@ -82,10 +90,10 @@ public class Setlist extends AppCompatActivity {
         showtime=findViewById(R.id.showtime);
         settags = findViewById(R.id.customtask);
 
-        ar.add(home);
-        ar.add(Work);
-        ar.add(shopping);
-
+//        ar.add(home);
+//        ar.add(Work);
+//        ar.add(shopping);
+        ar = tagsupdate();
         settags.setAdapter(arrayAdapter);
         arrayAdapter.notifyDataSetChanged();
 
@@ -184,7 +192,19 @@ public class Setlist extends AppCompatActivity {
 
     }
 
-     // this is image button by clicking at it dialog box appears
+    private ArrayList<String> tagsupdate() {
+        updatelist = new ArrayList<>();
+        SQLiteDatabase database =  itemOpenHelper.getReadableDatabase();
+     Cursor cursor =  database.query(Contracts.TagsdataBase.TABLE_NAME,null,null,null,null,null, null);
+
+     while (cursor.moveToFirst()){
+         updatelist.add(cursor.getString(cursor.getColumnIndex(Contracts.TagsdataBase.TAGS)));
+     }
+     return updatelist;
+    }
+
+
+    // this is image button by clicking at it dialog box appears
     public void onImagebutton (View view){
         final AlertDialog.Builder alertdialog = new AlertDialog.Builder(this);
         alertdialog.setTitle("Enter Task");
@@ -209,7 +229,15 @@ public class Setlist extends AppCompatActivity {
            public void onClick(View v) {
             Boolean a = editText1.getText().toString().trim().isEmpty();
             if(!a){
-                ar.add(editText1.getText().toString());
+                String setval =editText1.getText().toString();
+                ar.add(setval);
+                settags.setSelection(ar.size()-1);
+                SQLiteDatabase sqLiteDatabase = itemOpenHelper.getWritableDatabase();
+                ContentValues contentValues = new ContentValues();
+                contentValues.put(TAGS_STRING,setval);
+                sqLiteDatabase.insert(Contracts.TagsdataBase.TABLE_NAME,null,contentValues);
+//                settags.setAdapter(arrayAdapter);
+//                arrayAdapter.notifyDataSetChanged();
                 dialog.dismiss();
             }else
                 Toast.makeText(Setlist.this,"invalid! input can't be empty",Toast.LENGTH_SHORT).show();
@@ -270,7 +298,7 @@ public class Setlist extends AppCompatActivity {
         intent.putExtra(ItemConstants.TIME,showtime.getText().toString());
         intent.putExtra(ItemConstants.DATE,showdate.getText().toString());
         intent.putExtra(ItemConstants.TASK_COMPLETION,epoch);        //time in milliseconds
-
+        intent.putExtra(ItemConstants.TAG_SET,settags.getSelectedItem().toString());
 
         if(add) {
             setResult(1, intent);
@@ -279,31 +307,27 @@ public class Setlist extends AppCompatActivity {
             setResult(2,intent);
         }
         // alarm set and notification
-         broadcastAlarmNotification(epoch);
+       ///  broadcastAlarmNotification(epoch);
         finish();
     }
 
-   private void broadcastAlarmNotification(long epoch) {
 
-        AlarmManager alarmManager =(AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent shareintent = new Intent(this,MyReceiver.class);
-        int id =(int) System.currentTimeMillis();
-        long currenttime = System.currentTimeMillis();
-        long check = epoch - currenttime;
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this,1+id,shareintent,PendingIntent.FLAG_ONE_SHOT);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-           if(check >= 0 )
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP,epoch+1,pendingIntent);
-        }
-
-    }
 
     //for checking whether the task is empty or not
     public boolean isemptyornull(String s){
 
         String a=s.trim();
         return a == null || a.isEmpty();
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

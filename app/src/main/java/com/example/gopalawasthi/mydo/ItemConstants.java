@@ -12,4 +12,6 @@ public class ItemConstants {
     public static final String TIME="time";
     public static final String POSITION="position";
     public static final String EPOCH="epoch";
+    public static final String TAG_SET = "customtasks";
 }
+
